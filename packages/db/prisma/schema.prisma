@@ -26,6 +26,16 @@ model Merchant {
   auth_type AuthType
 }
 
+model p2pTransfer {
+  id         Int          @id @default(autoincrement())
+  amount     Int
+  timestamp  DateTime
+  fromUserId Int
+  fromUser   User         @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
+  toUserId   Int
+  toUser     User         @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+}
+
 model OnRampTransaction {
   id        Int          @id @default(autoincrement())
   status    OnRampStatus
@@ -49,15 +59,7 @@ enum AuthType {
   Google
   Github
 }
-model p2pTransfer {
-  id         Int          @id @default(autoincrement())
-  amount     Int
-  timestamp  DateTime
-  fromUserId Int
-  fromUser   User         @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
-  toUserId   Int
-  toUser     User         @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
-}
+
 enum OnRampStatus {
   Success
   Failure
